@@ -6,7 +6,7 @@ private let reuseId = "PokemonCell"
 
 class PokemonController: UICollectionViewController {
     
-    
+    var pokemonList = [PokemonModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +61,7 @@ extension PokemonController {
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10 // bu miktarda hücre olsun demek.
+        return self.pokemonList.count // bu miktarda hücre olsun demek.
     }
     
     
@@ -73,6 +73,8 @@ extension PokemonController {
     }
     
 }
+
+
 
 
 // UICollectionViewDelegateFlowLayout
@@ -102,7 +104,13 @@ extension PokemonController:UICollectionViewDelegateFlowLayout {
 extension PokemonController {
     
     func fetchPokeDatas(){
-        WebService.shared.getDatas()
+        WebService.shared.getDatas{ (pokemonArr) in
+          
+            DispatchQueue.main.async {
+                self.pokemonList = pokemonArr
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     

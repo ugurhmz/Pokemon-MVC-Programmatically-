@@ -11,8 +11,10 @@ final class WebService {
     
     
     
-        func getDatas(){
+    func getDatas(completion: @escaping ([PokemonModel]) -> ()){
            
+            var pokemonArr = [PokemonModel]()
+        
             guard let url = URL(string: BASE_URL) else {
                 print(" ERR URL")
                 return
@@ -31,10 +33,13 @@ final class WebService {
                     for (key, item) in resultArr.enumerated() {
                         
                         if let dict = item as? [String:AnyObject]  {
-                            let pokemon = PokemonModel(id: key, dictionary: dict)
+                            let pokemonArray = PokemonModel(id: key, dictionary: dict)
                             
-                            print(pokemon.name!)
+                            pokemonArr.append(pokemonArray)
+                        
                         }
+                        
+                        completion(pokemonArr)
                     }
                     
                     
