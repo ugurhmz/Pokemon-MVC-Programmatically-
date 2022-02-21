@@ -27,10 +27,19 @@ final class WebService {
                 do {
                     guard let resultArr = try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject] else { return }
 
-                        print(resultArr)
+                    
+                    for (key, item) in resultArr.enumerated() {
+                        
+                        if let dict = item as? [String:AnyObject]  {
+                            let pokemon = PokemonModel(id: key, dictionary: dict)
                             
-                } catch
-                {
+                            print(pokemon.name!)
+                        }
+                    }
+                    
+                    
+                            
+                } catch{
                     print("err", error.localizedDescription)
                 }
                 
