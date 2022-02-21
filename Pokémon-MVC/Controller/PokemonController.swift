@@ -8,20 +8,13 @@ class PokemonController: UICollectionViewController {
     
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewComponents()
-        
-        let url =  URL(string: "https://pokedex-bb36f.firebaseio.com/pokemon.json")!
-        
-        WebService().getDatas()
-        
-//        WebService().fetchDatas(url: url) { (result) in
-//            print("RESULT",result)
-//        }
+        fetchPokeDatas()
     }
+    
+    
     
     // searching
    @objc func searchFunc(){
@@ -103,3 +96,14 @@ extension PokemonController:UICollectionViewDelegateFlowLayout {
 
 
 
+
+
+// API CALL
+extension PokemonController {
+    
+    func fetchPokeDatas(){
+        WebService.shared.getDatas()
+    }
+    
+    
+}

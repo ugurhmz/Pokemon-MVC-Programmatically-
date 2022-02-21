@@ -6,58 +6,38 @@ import Foundation
 
 final class WebService {
     
+        static let shared = WebService()
+        let BASE_URL =  "https://pokedex-bb36f.firebaseio.com/pokemon.json"
+    
+    
+    
         func getDatas(){
-             let url = "https://pokedex-bb36f.firebaseio.com/pokemon.json"
+           
+            guard let url = URL(string: BASE_URL) else {
+                print(" ERR URL")
+                return
+            }
     
-            URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: {
-                data, response, error in
-    
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                                                     
                 guard let data = data, error == nil else {
                     return
                 }
-    
-    
+                
                 do {
-                 
-                    guard let resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject]   else      {
-                        print("err")
-                        return
-                    }
-                    
-                    print(resultArray)
-                    
-                    
-                } catch(let error) {
+                    guard let resultArr = try JSONSerialization.jsonObject(with: data, options: []) as? [AnyObject] else { return }
+
+                        print(resultArr)
+                            
+                } catch
+                {
                     print("err", error.localizedDescription)
                 }
-    
-    
-            }).resume()
+                
+            }.resume()
+            
         }
     
-   
-    
-//    func fetchDatas(url: URL, completion: @escaping(WelcomeClass?) -> ()) {
-//
-//        URLSession.shared.dataTask(with : url) { data, response ,error in
-//
-//                guard let data = data, error == nil else {
-//                    print("err",error!.localizedDescription)
-//                    return
-//                }
-//
-//                do{
-//                    let  pokeList = try JSONDecoder().decode(WelcomeClass.self, from: data)
-//
-//                    print(pokeList)
-//                    completion(pokeList)
-//
-//                } catch {
-//                    print("HATA",error.localizedDescription)
-//                }
-//
-//        }.resume()
-//
-//    }
+
     
 }
