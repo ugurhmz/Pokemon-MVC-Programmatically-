@@ -3,12 +3,21 @@
 import UIKit
 
 
+
+protocol PokemonCellDelegate {
+    func presentInfoView(withPokemon pokemonModel: PokemonModel)
+}
+
+
 class PokemonCell : UICollectionViewCell {
+    
+    
+    var delegate: PokemonCellDelegate?
     
     
     var pokemon: PokemonModel? {
         didSet {
-            nameLabel.text = pokemon?.name
+            nameLabel.text = pokemon?.name?.capitalized
             imageView.image = pokemon?.image
         }
     }
@@ -66,6 +75,14 @@ class PokemonCell : UICollectionViewCell {
     
     
     
+    // Selector -
+    @objc func handleLongPress(sender: UILongPressGestureRecognizer){
+        if sender.state == .began {
+            guard let pokemon = self.pokemon else { return }
+            print("Long press..",pokemon.name)
+            delegate?.presentInfoView(withPokemon: pokemon)
+        }
+    }
     
     
     // Helper func
@@ -86,6 +103,15 @@ class PokemonCell : UICollectionViewCell {
         addSubview(nameContainerView)
         nameContainerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
         
+        
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        
+        
+        self.addGestureRecognizer(longPressGestureRecognizer)
+    
+    
+    
+    
     }
     
     
