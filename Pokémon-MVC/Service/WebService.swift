@@ -40,6 +40,11 @@ final class WebService {
                             self.fetchImage(withUrlString: imageUrl) { (image) in
                                 pokemonObj.image = image    // O modelin image'sine -> benim fetch'lediğim imageyi ver.
                                 pokemonArr.append(pokemonObj)
+                                
+                                pokemonArr.sort { (poke1, poke2) ->Bool in
+                                    return poke1.name! < poke2.name!
+                                }
+                                
                                 completion(pokemonArr)
                             }
                         }
