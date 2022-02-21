@@ -7,7 +7,7 @@ class PokemonCell : UICollectionViewCell {
     
     
 
-    // UIView
+    // nameContainerView
     lazy var  nameContainerView : UIView = {
        let view = UIView()
         view.backgroundColor = .mainColor()
@@ -21,17 +21,17 @@ class PokemonCell : UICollectionViewCell {
     
     
     
-    // UIImageView
+    // imageView
     let imageView : UIImageView = {
         let imgView =  UIImageView()
-        imgView.backgroundColor = .tertiarySystemGroupedBackground
+        imgView.backgroundColor = .lightGray
         imgView.contentMode = .scaleAspectFit
         
         return imgView
     }()
     
     
-    // UILabel
+    // nameLabel
     let nameLabel : UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -48,14 +48,39 @@ class PokemonCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.layer.cornerRadius = 10
+        configureViewComponents()
     }
     
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init coder implement err!!")
     }
+    
+    
+    
+    
+    
+    
+    // Helper func
+    
+    func configureViewComponents(){
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+        
+        
+        
+        //addSubview -> imageView
+        addSubview(imageView)
+        imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: self.frame.height - 32)
+        
+        
+        
+        //addSubview -> nameContainerView
+        addSubview(nameContainerView)
+        nameContainerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
+        
+    }
+    
     
     
 }

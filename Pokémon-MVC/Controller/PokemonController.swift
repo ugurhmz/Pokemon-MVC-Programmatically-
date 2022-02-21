@@ -63,7 +63,7 @@ extension PokemonController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for:indexPath) as! PokemonCell
         
-        cell.backgroundColor = .gray   // Her hücrenin içi
+        cell.backgroundColor = .mainColor()   // Her hücrenin içi
         return cell
     }
     
