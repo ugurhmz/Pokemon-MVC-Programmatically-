@@ -87,8 +87,6 @@ extension PokemonController:UICollectionViewDelegateFlowLayout {
         let cellWidth = (view.frame.width - 36) / 3
         return CGSize(width: cellWidth, height: cellWidth)
     }
-    
-    
 }
 
 
