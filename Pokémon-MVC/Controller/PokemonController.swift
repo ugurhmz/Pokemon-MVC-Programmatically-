@@ -69,6 +69,8 @@ extension PokemonController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for:indexPath) as! PokemonCell
         
         cell.backgroundColor = .mainColor()   // Her hücrenin içi
+        cell.pokemon = pokemonList[indexPath.item]
+        
         return cell
     }
     

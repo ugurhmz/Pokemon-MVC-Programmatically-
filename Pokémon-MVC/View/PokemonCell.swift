@@ -6,6 +6,13 @@ import UIKit
 class PokemonCell : UICollectionViewCell {
     
     
+    var pokemon: PokemonModel? {
+        didSet {
+            nameLabel.text = pokemon?.name
+            imageView.image = pokemon?.image
+        }
+    }
+    
 
     // nameContainerView
     lazy var  nameContainerView : UIView = {

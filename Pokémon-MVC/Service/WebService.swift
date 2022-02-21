@@ -1,5 +1,5 @@
 
-import Foundation
+import UIKit
 
 
 
@@ -33,17 +33,18 @@ final class WebService {
                     for (key, item) in resultArr.enumerated() {
                         
                         if let dict = item as? [String:AnyObject]  {
-                            let pokemonArray = PokemonModel(id: key, dictionary: dict)
+                            let pokemonObj = PokemonModel(id: key, dictionary: dict)
                             
-                            pokemonArr.append(pokemonArray)
-                        
+                            guard let imageUrl = pokemonObj.imageUrl else { return }
+                            
+                            self.fetchImage(withUrlString: imageUrl) { (image) in
+                                pokemonObj.image = image    // O modelin image'sine -> benim fetch'lediğim imageyi ver.
+                                pokemonArr.append(pokemonObj)
+                                completion(pokemonArr)
+                            }
                         }
-                        
-                        completion(pokemonArr)
                     }
                     
-                    
-                            
                 } catch{
                     print("err", error.localizedDescription)
                 }
@@ -52,6 +53,30 @@ final class WebService {
             
         }
     
-
+    
+    
+    // Fetch Image
+    private func fetchImage(withUrlString urlString: String, completion: @escaping(UIImage) -> ()) {
+        
+        guard let url = URL(string: urlString) else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            
+            if let error  = error {
+                print("error", error.localizedDescription)
+                return
+            }
+            
+            guard let data = data else { return }
+            guard let image = UIImage(data:  data) else { return }
+            
+            completion(image)
+        }.resume()
+    }
     
 }
+
+
+
+
+
