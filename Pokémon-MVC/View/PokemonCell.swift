@@ -8,6 +8,8 @@ class PokemonCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.layer.cornerRadius = 10
     }
     
     
