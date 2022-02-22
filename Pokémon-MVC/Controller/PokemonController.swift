@@ -40,19 +40,33 @@ class PokemonController: UICollectionViewController {
     
     // MARK: - Selectors
     
-   @objc func searchingFunc(){
-       let searchBar = UISearchBar()
-       searchBar.delegate = self
-       searchBar.sizeToFit()
-       searchBar.showsCancelButton = true
-       searchBar.becomeFirstResponder() // Icona tıklayınca, searchbar focus yapıyor.
-       searchBar.tintColor = .white
-       
-       
-       navigationItem.rightBarButtonItem = nil
-       navigationItem.titleView = searchBar
+    @objc func searchingFunc(shouldShow: Bool){
+      
+        if shouldShow {
+            let searchBar = UISearchBar()
+            searchBar.delegate = self
+            searchBar.sizeToFit()
+            searchBar.showsCancelButton = true
+            searchBar.becomeFirstResponder() // Icona tıklayınca, searchbar focus yapıyor.
+            searchBar.tintColor = .black
+            searchBar.searchTextField.backgroundColor = .white
+            searchBar.searchTextField.textColor = .black
+            
+            navigationItem.rightBarButtonItem = nil
+            navigationItem.titleView = searchBar
+        } else {
+            
+            navigationItem.titleView = nil
+            configureSearchBarButton()
+            searchMode = false
+            collectionView.reloadData()
+        }
     }
     
+    
+    @objc func showSearchBar(){
+        searchingFunc(shouldShow: true)
+    }
     
     @objc func handleDismissal(){
         dismissInfoView(pokemonModel: nil)
@@ -64,7 +78,7 @@ class PokemonController: UICollectionViewController {
     
     
     func configureSearchBarButton(){
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchingFunc))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
         navigationItem.rightBarButtonItem?.tintColor = .white
     }
     
@@ -191,9 +205,11 @@ extension PokemonController {
 // MARK: - PokemonCellDelegate //  BURASI Gesture'den Sonra çıkan dialog window için.
 extension PokemonController: PokemonCellDelegate {
     
-    
-    
     func presentInfoView(withPokemon pokemonModel: PokemonModel) {
+        
+        searchingFunc(shouldShow: false)
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        
         view.addSubview(infoView)
         infoView.configureViewComponents()
         infoView.delegate = self
@@ -234,6 +250,7 @@ extension PokemonController: InfoViewDelegate {
             
         }) { (_) in
             self.infoView.removeFromSuperview()
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
             guard let pokemonModel = pokemonModel else {
                 return
             }
@@ -260,10 +277,7 @@ extension PokemonController: UISearchBarDelegate {
     
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        navigationItem.titleView = nil
-        configureSearchBarButton()
-        searchMode = false
-        collectionView.reloadData()
+        self.searchingFunc(shouldShow: false)
     }
     
     
