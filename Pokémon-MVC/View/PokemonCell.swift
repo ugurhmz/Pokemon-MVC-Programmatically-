@@ -79,7 +79,7 @@ class PokemonCell : UICollectionViewCell {
     @objc func handleLongPress(sender: UILongPressGestureRecognizer){
         if sender.state == .began {
             guard let pokemon = self.pokemon else { return }
-            print("Long press..",pokemon.name)
+            print("Long press..",pokemon.name!)
             delegate?.presentInfoView(withPokemon: pokemon)
         }
     }
