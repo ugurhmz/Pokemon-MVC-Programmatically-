@@ -7,20 +7,13 @@ private let reuseId = "PokemonCell"
 class PokemonController: UICollectionViewController {
     
     var pokemonList = [PokemonModel]()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureViewComponents()
-        fetchPokeDatas()
-    }
-    
+   
     
     let infoView: InfoView = {
         let view = InfoView()
         view.layer.cornerRadius = 5
         return view
     }()
-    
     
     let visualEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .dark)
@@ -29,23 +22,30 @@ class PokemonController: UICollectionViewController {
     }()
     
     
+    // INIT
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureViewComponents()
+        fetchPokeDatas()
+    }
     
     
     
     
-    // Selectors - searchFunc
+    
+    // MARK: - Selectors - searchFunc
    @objc func searchFunc(){
         print(15131231)
     }
     
-    //
+    
     @objc func handleDismissal(){
         dismissInfoView(pokemonModel: nil)
     }
     
     
     
-    // MARK - Helper Func
+    // MARK: - Helper Func
     func configureViewComponents(){
         
         
@@ -86,7 +86,7 @@ class PokemonController: UICollectionViewController {
 
 
 
-// collectionView
+// MARK: - collectionView
 extension PokemonController {
     
     
@@ -101,6 +101,7 @@ extension PokemonController {
         cell.backgroundColor = .mainColor()   // Her hücrenin içi
         cell.pokemon = pokemonList[indexPath.item]
         
+        cell.delegate = self
         return cell
     }
     
@@ -116,7 +117,7 @@ extension PokemonController {
 
 
 
-// UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDelegateFlowLayout
 extension PokemonController:UICollectionViewDelegateFlowLayout {
     
     

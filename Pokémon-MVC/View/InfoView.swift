@@ -12,12 +12,7 @@ class InfoView: UIView {
     
     var delegate:InfoViewDelegate?
     
-    var pokemonModel: PokemonModel?
-    
-    
-    
-    
-    var pokemon: PokemonModel? {
+    var pokemonModel: PokemonModel? {
         didSet {
             guard let pokemon = self.pokemonModel else { return }
             guard let type = pokemon.type else { return }
@@ -187,7 +182,7 @@ extension InfoView {
         defenseLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
         
         let separatorView = UIView()
-        separatorView.backgroundColor = .groupTableViewBackground
+        separatorView.backgroundColor = .lightGray
         addSubview(separatorView)
         separatorView.anchor(top: typeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 4, paddingBottom: 0, paddingRight: 4, width: 0, height: 1)
         
@@ -225,7 +220,7 @@ extension InfoView {
         defenseLabel.anchor(top: imageView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
         
         let separatorView = UIView()
-        separatorView.backgroundColor = .groupTableViewBackground
+        separatorView.backgroundColor = .lightGray
         addSubview(separatorView)
         separatorView.anchor(top: typeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 4, paddingBottom: 0, paddingRight: 4, width: 0, height: 1)
         
