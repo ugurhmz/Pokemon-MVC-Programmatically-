@@ -8,7 +8,7 @@ protocol InfoViewDelegate{
 }
 
 
-class InfoView: UIView {
+class DialogInfoView: UIView {
     
     var delegate:InfoViewDelegate?
     
@@ -146,6 +146,7 @@ class InfoView: UIView {
         guard let pokemon = self.pokemonModel else { return }
         print("POKİİ", pokemon)
         delegate?.dismissInfoView(withPokemon: pokemon)
+        
     }
     
     
@@ -154,7 +155,7 @@ class InfoView: UIView {
 
 
 // CONFIGURATIONS
-extension InfoView {
+extension DialogInfoView {
     
     // MARK: - Burası Dialogtaki, Resim & Buton  arsaındaki info yerinin ayarları
     func configureLabel(label: UILabel, title: String, details: String) {
@@ -173,18 +174,19 @@ extension InfoView {
         label.attributedText = attributedText
     }
    
-    
+    // MARK: - BURASI KOMPLE Detay sayfası, orta kısım infos.
     func configureViewForInfoController() {
         addSubview(typeLabel)
-        typeLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 16, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        typeLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop:16, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         addSubview(defenseLabel)
         defenseLabel.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
         
+        // MARK: - Detay sayfası hr
         let separatorView = UIView()
-        separatorView.backgroundColor = .lightGray
+        separatorView.backgroundColor = .black
         addSubview(separatorView)
-        separatorView.anchor(top: typeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 4, paddingBottom: 0, paddingRight: 4, width: 0, height: 1)
+        separatorView.anchor(top: typeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 4, paddingBottom: 15, paddingRight: 4, width: 0, height: 0.4)
         
         addSubview(heightLabel)
         heightLabel.anchor(top: separatorView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 16, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -200,12 +202,12 @@ extension InfoView {
     }
     
     
-    
+    // MARK: - BURASI Komple -> Dialogtaki title, detaylar alanı
     func configureViewComponents(){
         backgroundColor = .white
         self.layer.masksToBounds = true
         
-        // MARK: - BURASI Komple -> Dialogtaki title, detaylar alanı
+      
         addSubview(nameContainerView)
         nameContainerView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         

@@ -37,10 +37,10 @@ class PokemonCell : UICollectionViewCell {
     
     
     
-    // imageView
+    // MARK: -  imageView   -> Ön sayfa kutunun resmin arka planı.
     let imageView : UIImageView = {
         let imgView =  UIImageView()
-        imgView.backgroundColor = .lightGray
+        imgView.backgroundColor = .systemGray3
         imgView.contentMode = .scaleAspectFit
         
         return imgView
@@ -101,10 +101,11 @@ class PokemonCell : UICollectionViewCell {
         
         //addSubview -> nameContainerView
         addSubview(nameContainerView)
-        nameContainerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 35)
+        nameContainerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
         
         
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        
         
         self.addGestureRecognizer(longPressGestureRecognizer)
     

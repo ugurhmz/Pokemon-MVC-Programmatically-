@@ -4,7 +4,7 @@
 import UIKit
 
 
-class PokemonInfoController: UIViewController {
+class PokemonDetailsController: UIViewController {
     
     
     // Ön taraftan geldiğinde ve değiştiğinde..
@@ -39,8 +39,8 @@ class PokemonInfoController: UIViewController {
     
     
     // MARK: -  infoView         // Burası -> Detay sayfası info bilgilerinin göründüğü kısım.
-    let infoView: InfoView = {
-        let view = InfoView()
+    let infoView: DialogInfoView = {
+        let view = DialogInfoView()
         view.configureViewForInfoController()
         return view
     }()
@@ -50,7 +50,7 @@ class PokemonInfoController: UIViewController {
     // MARK: - evolutionView    // Burası -> NextEvolotion div center
     lazy var evolutionView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
+        view.backgroundColor = .gray
         
         view.addSubview(evoLabel)
         evoLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -105,10 +105,10 @@ class PokemonInfoController: UIViewController {
 
 
 
-// MARK: - configureViewComponents   // Burası Detail sayfası  açılınca, navigationBar altı
-extension PokemonInfoController {
+// MARK: -  Burası Detail sayfası, tüm ayarlar.
+extension PokemonDetailsController {
     
-    
+   
     func configureViewComponents(){
         view.backgroundColor = .white       // Ekran bg
         navigationController?.navigationBar.tintColor = .white  // navigation color
@@ -125,7 +125,7 @@ extension PokemonInfoController {
         infoView.anchor(top: infoLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 150)
         
         view.addSubview(evolutionView)
-        evolutionView.anchor(top: infoView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        evolutionView.anchor(top: infoView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 48, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 35)
         
         view.addSubview(firstEvoImageView)
         firstEvoImageView.anchor(top: evolutionView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 32, paddingBottom: 0, paddingRight: 0, width: 120, height: 120)

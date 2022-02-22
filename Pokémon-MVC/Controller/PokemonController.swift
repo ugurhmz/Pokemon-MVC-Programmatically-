@@ -10,8 +10,8 @@ class PokemonController: UICollectionViewController {
    
     
 // MARK: - Dialog window
-    let infoView: InfoView = {
-        let view = InfoView()
+    let infoView: DialogInfoView = {
+        let view = DialogInfoView()
         view.layer.cornerRadius = 10
         return view
     }()
@@ -99,6 +99,12 @@ extension PokemonController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for:indexPath) as! PokemonCell
         
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOffset = CGSize(width: 0, height: 0)
+        cell.layer.shadowRadius = 2.5
+        cell.layer.shadowOpacity = 1
+        cell.layer.masksToBounds = false 
+        
         cell.backgroundColor = .mainColor()   // Her hücrenin içi
         cell.pokemon = pokemonList[indexPath.item]
         
@@ -109,7 +115,7 @@ extension PokemonController {
     
     // TODO  SEÇİLDİKTEN SONRA GİDİLECEK VC
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationVC = PokemonInfoController()
+        let destinationVC = PokemonDetailsController()
         print("controller -> ", destinationVC)
         destinationVC.pokemon = pokemonList[indexPath.row]
         navigationController?.pushViewController(destinationVC, animated: true)
@@ -135,7 +141,7 @@ extension PokemonController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let cellWidth = (view.frame.width - 36) / 3
-        return CGSize(width: cellWidth, height: cellWidth)
+        return CGSize(width: cellWidth, height: cellWidth + 60)
     }
 }
 
@@ -206,6 +212,14 @@ extension PokemonController: InfoViewDelegate {
             
         }) { (_) in
             self.infoView.removeFromSuperview()
+            guard let pokemonModel = pokemonModel else {
+                return
+            }
+            
+            let destinationVC = PokemonDetailsController()
+            destinationVC.pokemon = pokemonModel
+            self.navigationController?.pushViewController(destinationVC, animated: true)
+
         }
     
     
