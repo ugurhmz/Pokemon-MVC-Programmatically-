@@ -15,9 +15,7 @@ class PokemonModel {
     var type:String?
     var image:UIImage?
     var imageUrl:String?
-    
-    
-    
+   
     init(id: Int, dictionary: [String:AnyObject]) {
         self.id = id
         

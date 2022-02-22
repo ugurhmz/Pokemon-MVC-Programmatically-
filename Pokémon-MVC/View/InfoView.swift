@@ -25,7 +25,7 @@ class InfoView: UIView {
             imageView.image = pokemon.image
             nameLabel.text = pokemon.name?.capitalized
             
-            configureLabel(label: typeLabel, title: "Type", details: "\(type)")
+            configureLabel(label: typeLabel, title: "Type", details: type.capitalized)
             configureLabel(label: defenseLabel, title: "Defense", details: "\(defense)")
             configureLabel(label: heightLabel, title: "Height", details: "\(height)")
             configureLabel(label: weightLabel, title: "Weight", details: "\(weight)")
@@ -51,7 +51,7 @@ class InfoView: UIView {
     // nameContainerView
     lazy var nameContainerView: UIView = {
        let view = UIView()
-        view.backgroundColor = .mainColor()
+        view.backgroundColor = .black
         view.addSubview(nameLabel)
         view.layer.cornerRadius = 5
         nameLabel.center(inView: view)
@@ -63,7 +63,7 @@ class InfoView: UIView {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 23)
         label.text = "Test Balbasr"
         return label
     }()
@@ -115,17 +115,16 @@ class InfoView: UIView {
     }()
     
     
-    // infoButton
+    // MARK: -  infoButton    Burası -> Dialogtaki btn ve ayarları
     let infoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .mainColor()
-        button.setTitle("Details", for: .normal)
+        button.backgroundColor = .black
+        button.setTitle("View More Info", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.addTarget(self, action: #selector(handleViewDetail), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
-        
         return button
     }()
     
@@ -145,6 +144,7 @@ class InfoView: UIView {
     // handleWiwDetail
     @objc func handleViewDetail(){
         guard let pokemon = self.pokemonModel else { return }
+        print("POKİİ", pokemon)
         delegate?.dismissInfoView(withPokemon: pokemon)
     }
     
@@ -156,13 +156,13 @@ class InfoView: UIView {
 // CONFIGURATIONS
 extension InfoView {
     
-    
+    // MARK: - Burası Dialogtaki, Resim & Buton  arsaındaki info yerinin ayarları
     func configureLabel(label: UILabel, title: String, details: String) {
         
         let attributedText = NSMutableAttributedString(
             attributedString: NSAttributedString(string: "\(title): ",
             attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20),
-                         NSAttributedString.Key.foregroundColor: UIColor.mainColor()]))
+                         NSAttributedString.Key.foregroundColor: UIColor.black]))
             
         attributedText.append(NSAttributedString(
             string: "\(details)",
@@ -172,7 +172,7 @@ extension InfoView {
         
         label.attributedText = attributedText
     }
-    
+   
     
     func configureViewForInfoController() {
         addSubview(typeLabel)
@@ -205,12 +205,12 @@ extension InfoView {
         backgroundColor = .white
         self.layer.masksToBounds = true
         
-        
+        // MARK: - BURASI Komple -> Dialogtaki title, detaylar alanı
         addSubview(nameContainerView)
         nameContainerView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         
         addSubview(imageView)
-        imageView.anchor(top: nameContainerView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 24, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 100, height: 60)
+        imageView.anchor(top: nameContainerView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 44, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 100, height: 60)
         imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         addSubview(typeLabel)
@@ -219,10 +219,14 @@ extension InfoView {
         addSubview(defenseLabel)
         defenseLabel.anchor(top: imageView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 16, paddingLeft: 0, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
         
+        // MARK: - Burası -> Dialogtaki <hr> çizgisi
         let separatorView = UIView()
-        separatorView.backgroundColor = .lightGray
+        separatorView.backgroundColor = .red
         addSubview(separatorView)
-        separatorView.anchor(top: typeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 4, paddingBottom: 0, paddingRight: 4, width: 0, height: 1)
+        separatorView.anchor(top: typeLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 20, paddingLeft: 4, paddingBottom: 5, paddingRight: 4, width: 0, height: 0.3)
+        
+        
+        
         
         addSubview(heightLabel)
         heightLabel.anchor(top: separatorView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 16, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
