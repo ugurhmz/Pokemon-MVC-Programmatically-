@@ -3,6 +3,38 @@
 import UIKit
 
 
+struct EvolutionChain {
+        
+    var evolutionArray: [[String:AnyObject]]?
+    var evolutionIds = [Int]()
+    
+    init(evolutionArray: [[String: AnyObject]]) {
+        self.evolutionArray = evolutionArray
+        self.evolutionIds = setEvolutionIds()
+    }
+    
+    
+    func setEvolutionIds() -> [Int] {
+        var result = [Int]()
+        
+        evolutionArray?.forEach({ (dict) in
+            if let idString = dict["id"] as? String {
+                guard let id = Int(idString) else { return }
+                result.append(id)
+            }
+                
+        })
+        
+        return result
+    }
+    
+    
+    
+}
+
+
+
+
 class PokemonModel {
     
     var id:Int?
@@ -15,6 +47,8 @@ class PokemonModel {
     var type:String?
     var image:UIImage?
     var imageUrl:String?
+    var evolutionChain: [[String:AnyObject]]?
+    
    
     init(id: Int, dictionary: [String:AnyObject]) {
         self.id = id
@@ -54,6 +88,10 @@ class PokemonModel {
         
         if let imageUrl = dictionary["imageUrl"] as? String {
             self.imageUrl = imageUrl
+        }
+        
+        if let evolutionChain = dictionary["evolutionChain"] as? [[String: AnyObject]] {
+            self.evolutionChain = evolutionChain
         }
         
     }

@@ -152,9 +152,29 @@ extension PokemonController {
     // TODO  SEÇİLDİKTEN SONRA GİDİLECEK VC
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destinationVC = PokemonDetailsController()
-        print("controller -> ", destinationVC)
-        destinationVC.pokemon = pokemonList[indexPath.row]
+     
+        var pokemonEvoArr = [PokemonModel]()
+        
+        
+        destinationVC.pokemon = searchMode ? filteredPokiList[indexPath.row] : pokemonList[indexPath.row]
+        
+        guard let evoChain = destinationVC.pokemon?.evolutionChain else { return }
+        let evolutionChain = EvolutionChain(evolutionArray: evoChain)
+        let evoIds = evolutionChain.evolutionIds
+        
+        evoIds.forEach { (id) in
+            pokemonEvoArr.append(pokemonList[id - 1])
+        }
+        
+        
+        pokemonEvoArr.forEach { poki in
+            print(poki.name)
+        }
+        
+        
+        
         navigationController?.pushViewController(destinationVC, animated: true)
+        
     }
     
 }
