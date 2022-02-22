@@ -32,11 +32,8 @@ class PokemonController: UICollectionViewController {
         super.viewDidLoad()
         configureViewComponents()
         fetchPokeDatas()
+        
     }
-    
-    
-   
-    
     
     // MARK: - Selectors
     
@@ -76,6 +73,16 @@ class PokemonController: UICollectionViewController {
     
     // MARK: - Helper Func
     
+    func showPokemonDetailsController(withPokemon pokemon: PokemonModel) {
+        let destinationVC = PokemonDetailsController()
+        destinationVC.pokemon = pokemon
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+    }
+    
+    
+    
+    
+    
     
     func configureSearchBarButton(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
@@ -112,6 +119,9 @@ class PokemonController: UICollectionViewController {
         view.addSubview(visualEffectView)
         visualEffectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         visualEffectView.alpha = 0
+        
+        
+       
         
         let gesture = UITapGestureRecognizer(target:self, action: #selector(handleDismissal))
         visualEffectView.addGestureRecognizer(gesture)
@@ -151,32 +161,24 @@ extension PokemonController {
     
     // TODO  SEÇİLDİKTEN SONRA GİDİLECEK VC
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationVC = PokemonDetailsController()
-     
-        var pokemonEvoArr = [PokemonModel]()
         
+        let poke = searchMode ? filteredPokiList[indexPath.row] : pokemonList[indexPath.row]
         
-        destinationVC.pokemon = searchMode ? filteredPokiList[indexPath.row] : pokemonList[indexPath.row]
+        var pokemonEvoArray = [PokemonModel]()
         
-        guard let evoChain = destinationVC.pokemon?.evolutionChain else { return }
+        guard let evoChain = poke.evolutionChain else { return }
         let evolutionChain = EvolutionChain(evolutionArray: evoChain)
         let evoIds = evolutionChain.evolutionIds
         
         evoIds.forEach { (id) in
-            pokemonEvoArr.append(pokemonList[id - 1])
+            
+            print("pokemonList[id]", pokemonList[id].name)
+            pokemonEvoArray.append(pokemonList[id - 1])
         }
         
-        
-        pokemonEvoArr.forEach { poki in
-            print(poki.name)
-        }
-        
-        
-        
-        navigationController?.pushViewController(destinationVC, animated: true)
-        
+        poke.evoArr = pokemonEvoArray    
+        showPokemonDetailsController(withPokemon: poke)
     }
-    
 }
 
 
@@ -274,10 +276,9 @@ extension PokemonController: InfoViewDelegate {
             guard let pokemonModel = pokemonModel else {
                 return
             }
-            
-            let destinationVC = PokemonDetailsController()
-            destinationVC.pokemon = pokemonModel
-            self.navigationController?.pushViewController(destinationVC, animated: true)
+                
+            self.showPokemonDetailsController(withPokemon: pokemonModel)
+          
 
         }
     

@@ -15,7 +15,23 @@ class PokemonDetailsController: UIViewController {
             infoLabel.text = pokemon?.description
             infoView.pokemonModel = pokemon
             evoLabel.text = "qwew"
-            firstEvoImageView.image  = pokemon?.image
+        
+            
+            if let evoArr = pokemon?.evoArr {
+                
+                evoArr.forEach { item in
+                    print(item.name)
+                }
+                
+               
+                if evoArr.count > 1 {
+                    firstEvoImageView.image = evoArr[0].image
+                    secondEvoImageView.image = evoArr[1].image
+                } else {
+                    firstEvoImageView.image = evoArr[0].image
+                }
+            }
+            
         }
     }
     
@@ -78,7 +94,7 @@ class PokemonDetailsController: UIViewController {
     let firstEvoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .white
+        
         return iv
     }()
     
@@ -87,7 +103,7 @@ class PokemonDetailsController: UIViewController {
     let secondEvoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .white
+    
         return iv
     }()
     

@@ -42,7 +42,7 @@ final class WebService {
                                 pokemonArr.append(pokemonObj)
                                 
                                 pokemonArr.sort { (poke1, poke2) ->Bool in
-                                    return poke1.name! < poke2.name!
+                                    return poke1.id! < poke2.id!
                                 }
                                 
                                 completion(pokemonArr)

@@ -15,17 +15,17 @@ struct EvolutionChain {
     
     
     func setEvolutionIds() -> [Int] {
-        var result = [Int]()
+        var results = [Int]()
         
         evolutionArray?.forEach({ (dict) in
             if let idString = dict["id"] as? String {
                 guard let id = Int(idString) else { return }
-                result.append(id)
+                results.append(id)
             }
                 
         })
         
-        return result
+        return results
     }
     
     
@@ -48,6 +48,7 @@ class PokemonModel {
     var image:UIImage?
     var imageUrl:String?
     var evolutionChain: [[String:AnyObject]]?
+    var evoArr : [PokemonModel]?
     
    
     init(id: Int, dictionary: [String:AnyObject]) {
