@@ -25,7 +25,7 @@ class InfoView: UIView {
             imageView.image = pokemon.image
             nameLabel.text = pokemon.name?.capitalized
             
-            configureLabel(label: typeLabel, title: "Type", details: type)
+            configureLabel(label: typeLabel, title: "Type", details: "\(type)")
             configureLabel(label: defenseLabel, title: "Defense", details: "\(defense)")
             configureLabel(label: heightLabel, title: "Height", details: "\(height)")
             configureLabel(label: weightLabel, title: "Weight", details: "\(weight)")
@@ -161,7 +161,7 @@ extension InfoView {
         
         let attributedText = NSMutableAttributedString(
             attributedString: NSAttributedString(string: "\(title): ",
-            attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 17),
+            attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20),
                          NSAttributedString.Key.foregroundColor: UIColor.mainColor()]))
             
         attributedText.append(NSAttributedString(

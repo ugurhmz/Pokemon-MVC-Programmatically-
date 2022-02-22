@@ -9,14 +9,15 @@ class PokemonController: UICollectionViewController {
     var pokemonList = [PokemonModel]()
    
     
+// MARK: - Dialog window
     let infoView: InfoView = {
         let view = InfoView()
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 10
         return view
     }()
     
     let visualEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffect = UIBlurEffect(style: .dark) // blur bg color
         let view = UIVisualEffectView(effect: blurEffect)
         return view
     }()
@@ -106,10 +107,12 @@ extension PokemonController {
     }
     
     
+    // TODO  SEÇİLDİKTEN SONRA GİDİLECEK VC
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let controller = PokemonInfoController()
-        controller.pokemon = pokemonList[indexPath.row]
-        navigationController?.pushViewController(controller, animated: true)
+        let destinationVC = PokemonInfoController()
+        print("controller -> ", destinationVC)
+        destinationVC.pokemon = pokemonList[indexPath.row]
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
     
 }
@@ -140,7 +143,7 @@ extension PokemonController:UICollectionViewDelegateFlowLayout {
 
 
 
-// API CALL
+// MARK: - API CALL
 extension PokemonController {
     
     func fetchPokeDatas(){
@@ -157,20 +160,22 @@ extension PokemonController {
 }
 
 
-
+// MARK: - PokemonCellDelegate //  BURASI Gesture'den Sonra çıkan dialog window için.
 extension PokemonController: PokemonCellDelegate {
+    
+    
     
     func presentInfoView(withPokemon pokemonModel: PokemonModel) {
         view.addSubview(infoView)
         infoView.configureViewComponents()
         infoView.delegate = self
         infoView.pokemonModel = pokemonModel
-        infoView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 64, height: 350)
+        infoView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width - 35, height: 400)
    
         infoView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         infoView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -44).isActive = true
         
-        infoView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        infoView.transform = CGAffineTransform(scaleX: 2.1, y: 1.3)
         infoView.alpha = 0
         
         UIView.animate(withDuration: 0.5) {
@@ -188,16 +193,16 @@ extension PokemonController: PokemonCellDelegate {
 
 
 
-// InfoViewDelegate
+// MARK: - InfoViewDelegate //  BURASI Dialog penceresi ekrandan kaybolurken olanlar.
 extension PokemonController: InfoViewDelegate {
     
     
     
     func dismissInfoView(pokemonModel: PokemonModel?) {
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.7, animations: {   // Dialog penceresi kaybolma time.
             self.visualEffectView.alpha = 0
-            self.infoView.alpha = 0
-            self.infoView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            self.infoView.alpha = 0.4
+            self.infoView.transform = CGAffineTransform(scaleX: 1.2 , y: 1.2)
             
         }) { (_) in
             self.infoView.removeFromSuperview()
