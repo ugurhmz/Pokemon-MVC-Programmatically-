@@ -7,7 +7,11 @@ private let reuseId = "PokemonCell"
 class PokemonController: UICollectionViewController {
     
     var pokemonList = [PokemonModel]()
+    var filteredPokiList = [PokemonModel]()
+    var searchMode = false
+    var seachBar: UISearchBar!
    
+    
     
 // MARK: - Dialog window
     let infoView: DialogInfoView = {
@@ -31,12 +35,22 @@ class PokemonController: UICollectionViewController {
     }
     
     
+   
     
     
+    // MARK: - Selectors
     
-    // MARK: - Selectors - searchFunc
-   @objc func searchFunc(){
-        print(15131231)
+   @objc func searchingFunc(){
+       let searchBar = UISearchBar()
+       searchBar.delegate = self
+       searchBar.sizeToFit()
+       searchBar.showsCancelButton = true
+       searchBar.becomeFirstResponder() // Icona tıklayınca, searchbar focus yapıyor.
+       searchBar.tintColor = .white
+       
+       
+       navigationItem.rightBarButtonItem = nil
+       navigationItem.titleView = searchBar
     }
     
     
@@ -47,6 +61,15 @@ class PokemonController: UICollectionViewController {
     
     
     // MARK: - Helper Func
+    
+    
+    func configureSearchBarButton(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchingFunc))
+        navigationItem.rightBarButtonItem?.tintColor = .white
+    }
+    
+    
+    
     func configureViewComponents(){
         
         
@@ -67,8 +90,7 @@ class PokemonController: UICollectionViewController {
 
             }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchFunc))
-        navigationItem.rightBarButtonItem?.tintColor = .white
+        self.configureSearchBarButton()
         
         
         // cell register
@@ -92,7 +114,7 @@ extension PokemonController {
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.pokemonList.count // bu miktarda hücre olsun demek.
+        return searchMode ?  filteredPokiList.count : pokemonList.count // bu miktarda hücre olsun demek.
     }
     
     
@@ -106,7 +128,7 @@ extension PokemonController {
         cell.layer.masksToBounds = false 
         
         cell.backgroundColor = .mainColor()   // Her hücrenin içi
-        cell.pokemon = pokemonList[indexPath.item]
+        cell.pokemon = searchMode ?  filteredPokiList[indexPath.row] : pokemonList[indexPath.row]
         
         cell.delegate = self
         return cell
@@ -231,3 +253,36 @@ extension PokemonController: InfoViewDelegate {
     }
 }
 
+
+
+// MARK: - UISearchBarDelegate
+extension PokemonController: UISearchBarDelegate {
+    
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        navigationItem.titleView = nil
+        configureSearchBarButton()
+        searchMode = false
+        collectionView.reloadData()
+    }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty || searchBar.text == nil {
+             searchMode = false
+             collectionView.reloadData()
+             view.endEditing(true)
+            
+        } else {    // Search mode ON
+            searchMode = true
+            filteredPokiList = pokemonList.filter( {
+                
+                $0.name?.range(of: searchText.lowercased()) != nil
+                
+            })
+            
+            collectionView.reloadData()
+        }
+    }
+    
+}
