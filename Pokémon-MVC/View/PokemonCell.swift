@@ -40,7 +40,7 @@ class PokemonCell : UICollectionViewCell {
     // MARK: -  imageView   -> Ön sayfa kutunun resmin arka planı.
     let imageView : UIImageView = {
         let imgView =  UIImageView()
-        imgView.backgroundColor = .systemGray3
+        imgView.backgroundColor = .white
         imgView.contentMode = .scaleAspectFit
         
         return imgView

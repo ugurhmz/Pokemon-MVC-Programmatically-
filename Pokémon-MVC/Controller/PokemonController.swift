@@ -30,6 +30,7 @@ class PokemonController: UICollectionViewController {
     // INIT
     override func viewDidLoad() {
         super.viewDidLoad()
+      
         configureViewComponents()
         fetchPokeDatas()
         
@@ -113,6 +114,7 @@ class PokemonController: UICollectionViewController {
         
         self.configureSearchBarButton()
         
+    
         
         // cell register
         collectionView.register(PokemonCell.self, forCellWithReuseIdentifier: reuseId)
@@ -120,8 +122,7 @@ class PokemonController: UICollectionViewController {
         visualEffectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         visualEffectView.alpha = 0
         
-        
-       
+        collectionView.backgroundColor = .lightGray
         
         let gesture = UITapGestureRecognizer(target:self, action: #selector(handleDismissal))
         visualEffectView.addGestureRecognizer(gesture)
@@ -166,17 +167,18 @@ extension PokemonController {
         
         var pokemonEvoArray = [PokemonModel]()
         
-        guard let evoChain = poke.evolutionChain else { return }
-        let evolutionChain = EvolutionChain(evolutionArray: evoChain)
-        let evoIds = evolutionChain.evolutionIds
-        
-        evoIds.forEach { (id) in
+        if let evoChain = poke.evolutionChain  {
+            let evolutionChain = EvolutionChain(evolutionArray: evoChain)
+            let evoIds = evolutionChain.evolutionIds
             
-            print("pokemonList[id]", pokemonList[id].name)
-            pokemonEvoArray.append(pokemonList[id - 1])
+            evoIds.forEach { (id) in
+            
+                pokemonEvoArray.append(pokemonList[id - 1])
+            }
+            poke.evoArr = pokemonEvoArray
         }
         
-        poke.evoArr = pokemonEvoArray    
+     
         showPokemonDetailsController(withPokemon: poke)
     }
 }

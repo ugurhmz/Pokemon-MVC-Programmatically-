@@ -14,7 +14,7 @@ class PokemonDetailsController: UIViewController {
             imageView.image = pokemon?.image
             infoLabel.text = pokemon?.description
             infoView.pokemonModel = pokemon
-            evoLabel.text = "qwew"
+            evoLabel.text = "Evolution Chain"
         
             
             if let evoArr = pokemon?.evoArr {
